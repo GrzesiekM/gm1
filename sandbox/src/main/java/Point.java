@@ -1,6 +1,8 @@
+package pl.qa.gm.sandbox;
+
 /**
  * Created by ThinkPad on 10.12.2016.
-*/
+ */
 public class Point {
 
   public double p1;
