@@ -14,13 +14,19 @@ import java.util.concurrent.TimeUnit;
 public class TestBase {
   FirefoxDriver wd;
 
+
   public static boolean isAlertPresent(FirefoxDriver wd) {
-    try {
-      wd.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
+      try {
+          wd.switchTo().alert();
+          return true;
+      } catch (NoAlertPresentException e) {
+          return false;
+      }
+  }
+
+  @AfterMethod
+  public void tearDown() {
+      wd.quit();
   }
 
   @BeforeMethod
@@ -30,7 +36,7 @@ public class TestBase {
 
   private void login(String username, String password) {
     wd = new FirefoxDriver();
-    wd.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
+    wd.manage().timeouts().implicitlyWait(500, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/addressbook/");
     wd.findElement(By.name("user")).click();
     wd.findElement(By.name("user")).clear();
@@ -72,10 +78,43 @@ public class TestBase {
     wd.findElement(By.linkText("grupy")).click();
   }
 
-  @AfterMethod
-  public void tearDown() {
-    wd.quit();
+  @BeforeMethod
+
+
+  private void loginn(String username, String passwrod) {
+      wd.findElement(By.name("user")).click();
+      wd.findElement(By.name("user")).clear();
+      wd.findElement(By.name("user")).sendKeys(username);
+      wd.findElement(By.name("pass")).click();
+      wd.findElement(By.name("pass")).clear();
+      wd.findElement(By.name("pass")).sendKeys(passwrod);
+      wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
   }
+
+  protected void submit() {
+      wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
+  }
+
+  protected void FillContactForm(ContactData contactData) {
+      wd.findElement(By.name("firstname")).clear();
+      wd.findElement(By.name("firstname")).sendKeys(contactData.getName());
+      wd.findElement(By.name("middlename")).click();
+      wd.findElement(By.name("middlename")).clear();
+      wd.findElement(By.name("middlename")).sendKeys(contactData.getSecondName());
+      wd.findElement(By.name("lastname")).click();
+      wd.findElement(By.name("lastname")).clear();
+      wd.findElement(By.name("lastname")).sendKeys(contactData.getEmail());
+  }
+
+  protected void initNameContactCreation() {
+      wd.findElement(By.name("firstname")).click();
+  }
+
+  protected void gotoContactPage() {
+      wd.findElement(By.linkText("nowy wpis")).click();
+  }
+
+
 
   public void deleteSelectedGroups() {
       wd.findElement(By.name("delete")).click();
