@@ -1,19 +1,19 @@
-package pl.qa.gm.addressbook;
+package pl.qa.gm.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import pl.qa.gm.addressbook.model.ContactData;
+import pl.qa.gm.addressbook.model.GroupData;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by ThinkPad on 17.12.2016.
  */
-public class TestBase {
+public class ApplicationManager {
   FirefoxDriver wd;
-
 
   public static boolean isAlertPresent(FirefoxDriver wd) {
       try {
@@ -24,19 +24,18 @@ public class TestBase {
       }
   }
 
-  @AfterMethod
-  public void tearDown() {
-      wd.quit();
+  public void stop() {
+    wd.quit();
   }
 
-  @BeforeMethod
-  public void setUp() throws Exception {
+  public void init() {
     login("admin", "secret");
+    wd.manage().timeouts().implicitlyWait(500, TimeUnit.SECONDS);
   }
 
-  private void login(String username, String password) {
+  public void login(String username, String password) {
     wd = new FirefoxDriver();
-    wd.manage().timeouts().implicitlyWait(500, TimeUnit.SECONDS);
+
     wd.get("http://localhost/addressbook/addressbook/");
     wd.findElement(By.name("user")).click();
     wd.findElement(By.name("user")).clear();
@@ -50,15 +49,15 @@ public class TestBase {
     wd.findElement(By.id("content")).click();
   }
 
-  protected void returnToGroupPage() {
+  public void returnToGroupPage() {
     wd.findElement(By.linkText("group page")).click();
   }
 
-  protected void submiteGroupCreation() {
+  public void submiteGroupCreation() {
     wd.findElement(By.name("submit")).click();
   }
 
-  protected void fillGroupForm(GroupData groupData) {
+  public void fillGroupForm(GroupData groupData) {
     wd.findElement(By.name("group_name")).click();
     wd.findElement(By.name("group_name")).clear();
     wd.findElement(By.name("group_name")).sendKeys(groupData.getName());
@@ -81,7 +80,7 @@ public class TestBase {
   @BeforeMethod
 
 
-  private void loginn(String username, String passwrod) {
+  public void loginn(String username, String passwrod) {
       wd.findElement(By.name("user")).click();
       wd.findElement(By.name("user")).clear();
       wd.findElement(By.name("user")).sendKeys(username);
@@ -91,11 +90,11 @@ public class TestBase {
       wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
   }
 
-  protected void submit() {
+  public void submit() {
       wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
   }
 
-  protected void FillContactForm(ContactData contactData) {
+  public void FillContactForm(ContactData contactData) {
       wd.findElement(By.name("firstname")).clear();
       wd.findElement(By.name("firstname")).sendKeys(contactData.getName());
       wd.findElement(By.name("middlename")).click();
@@ -106,15 +105,13 @@ public class TestBase {
       wd.findElement(By.name("lastname")).sendKeys(contactData.getEmail());
   }
 
-  protected void initNameContactCreation() {
+  public void initNameContactCreation() {
       wd.findElement(By.name("firstname")).click();
   }
 
-  protected void gotoContactPage() {
+  public void gotoContactPage() {
       wd.findElement(By.linkText("nowy wpis")).click();
   }
-
-
 
   public void deleteSelectedGroups() {
       wd.findElement(By.name("delete")).click();

@@ -1,4 +1,4 @@
-package pl.qa.gm.addressbook;
+package pl.qa.gm.addressbook.model;
 
 public class ContactData {
   private final String name;
