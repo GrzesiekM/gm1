@@ -8,7 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.*;
 import pl.qa.gm.addressbook.ContactData;
 
-public class contactCreation {
+public class ContactCreationTests {
     FirefoxDriver wd;
     
     @BeforeMethod
