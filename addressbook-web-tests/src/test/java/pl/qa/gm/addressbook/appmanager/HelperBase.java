@@ -24,6 +24,10 @@ public class HelperBase {
     wd.findElement(locator).sendKeys(text);
   }
 }
+
+  /**
+   * cholera wie po co tp tu jest, na ktorejs z ostatnich chyba przed ostatniej lekcji na koncowce drugiego modulu na  przenieslismy to tu skas tam szukaj info
+
   public  boolean isAlertPresent() {
     try {
       wd.switchTo().alert();
@@ -32,3 +36,4 @@ public class HelperBase {
       return false;
     }
   }
+   */
